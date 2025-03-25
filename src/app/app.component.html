@@ -1,0 +1,46 @@
+<div class="compact-file-upload">
+  <input type="file" #fileInput multiple (change)="onFileSelected($event)" style="display: none;"
+    accept="image/jpeg, image/png">
+
+  <div class="upload-columns">
+    <div class="upload-col drop-col" [class.dragging]="isDragging" [class.hover-paste]="isHovering"
+      (mouseenter)="onDropZoneEnter()" (mouseleave)="onDropZoneLeave()" (click)="triggerFileInput()">
+      <div class="compact-drop-message">
+        <i class="fas fa-cloud-upload-alt"></i>
+        <p>Drag & drop or click</p>
+        <small>JPG/PNG ≤2MB</small>
+        <div class="compact-paste-hint" *ngIf="isHovering">
+          <i class="fas fa-paste"></i> Ctrl+V
+        </div>
+      </div>
+    </div>
+    <div class="upload-col file-list-col" *ngIf="selectedFiles.length > 0">
+      <div class="compact-file-list">
+        <div class="compact-file-item" *ngFor="let file of selectedFiles; let i = index">
+          <div class="compact-file-info">
+            <i class="fas {{getFileIcon(file)}}"></i>
+            <div>
+              <div class="compact-file-name">{{file.name}}</div>
+              <div class="compact-file-size">{{formatSize(file.size)}}</div>
+            </div>
+          </div>
+          <button class="compact-remove-btn" (click)="removeFile(i)" title="Remove">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="upload-col action-col" *ngIf="selectedFiles.length > 0">
+      <div class="compact-upload-actions">
+        <button class="compact-clear-btn" (click)="clearAllFiles()" title="Clear All">
+          <i class="fas fa-trash-alt"></i>
+        </button>
+        <button class="compact-upload-btn" (click)="uploadFiles()" title="Upload">
+          <i class="fas fa-upload"></i> ({{selectedFiles.length}})
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
